@@ -102,7 +102,7 @@ for j = 2:num_total_poses
  
   disp("Triangulation..")
   # triangulate points usign all measurements until now
-  [n_success, trinagulated_points, trinagulated_points_indices, errors] = triangulatePointsMultipleViews(K, camera_table(:, :, 1:j), measurement_table, measurement_table_placeholder);
+  [n_success, triangulated_points, triangulated_points_indices, errors] = triangulatePointsMultipleViews(K, camera_table(:, :, 1:j), measurement_table, measurement_table_placeholder);
   disp("Ok.")
   
   state_landmark_indices = [];
@@ -111,8 +111,8 @@ for j = 2:num_total_poses
   index = 0;
   # update table containing all the triangulated points
   for i = 1:n_success
-    id = trinagulated_points_indices(i);
-    point = trinagulated_points(:, i);
+    id = triangulated_points_indices(i);
+    point = triangulated_points(:, i);
     point_table(:, id) = point;
     point_table_placeholder(id) = 1;  
     if landmark_corrispondences(1, id) == 1 || landmark_corrispondences(2, id) == 1
@@ -141,7 +141,6 @@ for j = 2:num_total_poses
   endfor;
   
   disp("Projective ICP..")
-  disp("poses: "), disp([j-1, j])
   
   xl_true = get_landmark_by_indices(state_landmark_indices);
   xl_guess = state_landmark;
@@ -187,8 +186,8 @@ disp("Bundle adjustment")
 book_keeping_association = zeros(1, num_total_landmarks);
 
 index = 0;
-for i = 1:size(trinagulated_points_indices, 2)
-  book_keeping_association(trinagulated_points_indices(i)) = ++index;
+for i = 1:size(triangulated_points_indices, 2)
+  book_keeping_association(triangulated_points_indices(i)) = ++index;
 endfor; 
   
 
@@ -204,10 +203,10 @@ for i = 1:size(projection_associations, 2)
   endif;
 endfor;
 
-xl_true = get_landmark_by_indices(trinagulated_points_indices);
+xl_true = get_landmark_by_indices(triangulated_points_indices);
 
 xr_guess = camera_table; 
-xl_guess = trinagulated_points;
+xl_guess = triangulated_points;
     
 num_landmarks = size(xl_guess, 2)
 num_poses = size(xr_guess, 3)
