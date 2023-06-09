@@ -1,7 +1,7 @@
 # VisualOdometry
 
 The project was developed as part of the Probabilistic Robotics class taught by prof. Giorgio Grisetti at Sapienza University of Rome.
-https://sites.google.com/diag.uniroma1.it/probabilistic-robotics-2020-21/home
+The course details can be found at the following link: [Probabilistic Robotics Course - Sapienza University of Rome](https://sites.google.com/diag.uniroma1.it/probabilistic-robotics-2020-21/home).
 
 Run "visual_odometry_complete.m' to see the complete pipeline.
 
